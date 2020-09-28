@@ -25,7 +25,7 @@ let notes = [
 ]
 
 app.get('/api/persons', (req, res) => {
-    res.json(notes)
+    res.json(notes) 
 })
 
 const PORT = 3001
