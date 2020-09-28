@@ -18,14 +18,24 @@ let notes = [
         number: "12-43-234345"
     },
     {
-        id: 4, 
+        id: 4,
         name: "Mary Poppendick",
         number: "39-23-6423122"
     },
 ]
 
+app.get('/info', (req, res) => {
+
+    const totalNotes = notes.length
+    const date = new Date()
+
+    res.send(
+        `<p>Phonebook has info for ${totalNotes} people.</p><p>${date}</p>`
+        )
+})
+
 app.get('/api/persons', (req, res) => {
-    res.json(notes) 
+    res.json(notes)
 })
 
 const PORT = 3001
