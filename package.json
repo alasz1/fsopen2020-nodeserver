@@ -1,0 +1,27 @@
+{
+  "name": "puhelinluettelo-backend",
+  "version": "1.0.0",
+  "description": "back end for full stack open 2020 pt. 3",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alasz1/fsopen2020-nodeserver.git"
+  },
+  "author": "Antti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alasz1/fsopen2020-nodeserver/issues"
+  },
+  "homepage": "https://github.com/alasz1/fsopen2020-nodeserver#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
