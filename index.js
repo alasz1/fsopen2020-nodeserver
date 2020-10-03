@@ -1,8 +1,12 @@
+require('dotenv').config()
 const { json } = require('express')
 const express = require('express')
 const morgan = require('morgan')
 const app = express()
 const cors = require('cors')
+const Person = require('./models/person')
+const PORT = process.env.PORT
+const mongoose = require('mongoose')
 
 app.use(cors())
 app.use(express.json())
@@ -44,19 +48,17 @@ app.get('/info', (req, res) => {
     )
 })
 
-app.get('/api/persons', (req, res) => {
-    res.json(persons)
-})
+app.get('/api/persons', (request, response) => {
+    Person.find({}).then(persons => {
+      response.json(persons.map(person => person.toJSON()))
+    })
+  })
 
-app.get('/api/persons/:id', (req, res) => {
-    const id = Number(req.params.id)
-    const person = persons.find(person => person.id === id)
-    if (person) {
-        res.json(person)
-    } else {
-        res.status(404).end()
-    }
-})
+app.get('/api/persons/:id', (request, response) => {
+    Person.findById(request.params.id).then(person => {
+      response.json(person)
+    })
+  })
 
 app.delete('/api/persons/:id', (req, res) => {
     const id = Number(req.params.id)
@@ -93,7 +95,7 @@ app.post('/api/persons', (req, res) => {
     res.json(person)
 })
 
-const PORT = process.env.PORT || 3001
+// const PORT = process.env.PORT
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
 })
