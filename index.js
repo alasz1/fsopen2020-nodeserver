@@ -46,7 +46,7 @@ app.get('/info', (req, res, next) => {
             `<p>Phonebook has info for ${persons.length} people.</p><p>${date}</p>`
         )
     })
-    .catch(error => next(error))
+    .catch(error => next(error)) 
 })
 
 app.get('/api/persons', (request, response, next) => {
