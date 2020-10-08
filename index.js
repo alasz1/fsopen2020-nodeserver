@@ -39,14 +39,14 @@ let persons = [
     },
 ]
 
-app.get('/info', (req, res) => {
-
-    const totalNotes = notes.length
-    const date = new Date()
-
-    res.send(
-        `<p>Phonebook has info for ${totalNotes} people.</p><p>${date}</p>`
-    )
+app.get('/info', (req, res, next) => {
+    Person.find({}).then(persons => {
+        const date = new Date()
+        res.send(
+            `<p>Phonebook has info for ${persons.length} people.</p><p>${date}</p>`
+        )
+    })
+    .catch(error => next(error))
 })
 
 app.get('/api/persons', (request, response, next) => {
@@ -56,10 +56,11 @@ app.get('/api/persons', (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
     Person.findById(request.params.id).then(person => {
         response.json(person)
     })
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
