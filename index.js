@@ -67,28 +67,40 @@ app.delete('/api/persons/:id', (req, res) => {
 })
 
 app.post('/api/persons', (req, res) => {
-    const body = req.body
-    const foundName = persons.find(p => p.name === body.name)
 
+    const body = req.body
+
+    // Check if name or number is missing
     if (!body.name || !body.number) {
         return res.status(400).json({
             error: !body.name ? 'name missing' : 'number missing'
         })
     }
-    if (foundName) {
-        return res.status(400).json({
-            error: 'name must be unique'
-        })
-    }
+
+    // // Check if person exists in db
+    // const foundName = persons.find(p => p.name === body.name)
+    // if (foundName) {
+    //     return res.status(400).json({
+    //         error: 'name must be unique'
+    //     })
+    // }
 
     const id = Math.floor(Math.random() * 1000000)
 
-    const person = {
+    const person = new Person({
         name: body.name,
         number: body.number,
         id: id
-    }
+    })
+
     console.log(person)
+
+    // write to db
+
+    person.save().then(response => {
+        console.log('person saved!')
+        mongoose.connection.close()
+    })
 
     persons = persons.concat(person)
 
