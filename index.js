@@ -87,7 +87,7 @@ app.put('/api/persons/:id', (request, response, next) => {
         .catch(error => next(error))
 })
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', (req, res, next) => {
 
     const body = req.body
 
@@ -106,12 +106,9 @@ app.post('/api/persons', (req, res) => {
     //     })
     // }
 
-    // const id = Math.floor(Math.random() * 1000000)
-
     const person = new Person({
         name: body.name,
         number: body.number
-        // id: id
     })
 
     console.log(person)
@@ -123,9 +120,8 @@ app.post('/api/persons', (req, res) => {
         res.json(savedPerson.toJSON())
         // mongoose.connection.close()
     })
+    .catch(error => next(error))
 
-    // persons = persons.concat(person)
-    // res.json(person)
 })
 
 const unknownEndpoint = (request, response) => {
@@ -139,6 +135,8 @@ const errorHandler = (error, request, response, next) => {
 
     if (error.name === 'CastError' && error.kind == 'ObjectId') {
         return response.status(400).send({ error: 'malformatted id' })
+    } else if (error.name === 'ValidationError') {
+        return response.status(400).json({ error: error.message })
     }
 
     next(error)
